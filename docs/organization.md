@@ -15,12 +15,12 @@ All team members will be involved in coding.
 
 ### Testing
 
-All team members will be involved in testing
+All team members will be involved in testing.
 
 * Unit Testing
 * Play Testing
 
 ### Documentation
 
-All team members will be involved in documentation
+All team members will be involved in documentation.
 
