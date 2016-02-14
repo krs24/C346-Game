@@ -1,3 +1,3 @@
 | Task		| Effort Estimation	|
 | -----		| ------			|
-| ->Study Unity Tutorials<-	| ->6<-			|
+| `Study Unity Tutorials`	| `6`			|
