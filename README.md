@@ -1,2 +1,2 @@
 # C346-Game
-Group Project for Introduction to Software Engineeriing
+Group Project for Introduction to Software Engineering
