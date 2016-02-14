@@ -3,9 +3,10 @@
 ### Team Members
 
 * Alan Grant
+* Jeremy Stephens
 * Kristopher O'bryan
 * Leodan Diaz Aguilera
-* Jeremy Stephens
+
 
 Our plan is to create a game using the Unity3d Game Engine and C#. We are currently unsure of the exact type of game we want to make.
 
