@@ -1,10 +1,8 @@
-
-
 ### Team Members
 
 * Alan Grant
 * Jeremy Stephens
-* Kristopher O'bryan
+* Kristopher O'Bryan
 * Leodan Diaz Aguilera
 
 
