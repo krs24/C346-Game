@@ -6,12 +6,13 @@
 * Leodan Diaz Aguilera
 
 
-Our plan is to create a game using the Unity3d Game Engine and C#. We are currently unsure of the exact type of game we want to make.
+Our plan is to create a 2D roguelike game using the Unity3D Game Engine and C#. Right now we are working on ideas for our game's setting. We might do a traditional dungeon crawler roguelike, or a more survival based zombie apocalypse type game. The game will feature a basic leveling system where the player can earn experience by defeating various enemies. Also it may be possible to find weapon and armor upgrades as the player progesses in levels. 
 
-### Possible Game Ideas
+### Possible Game Features
 
-* 2D roguelike game
-* 2D survival game
-* 2D or 3D puzzle game
-* 2D or 3D adventure game
+* Procedurally Generated Levels
+* Player Leveling System
+* Ability to Save Current Progress
+* Multiple Enemies
+* Weapon and Armor Upgrades
 
