@@ -15,4 +15,5 @@ Our plan is to create a 2D roguelike game using the Unity3D Game Engine and C#. 
 * Ability to Save Current Progress
 * Multiple Enemies
 * Weapon and Armor Upgrades
+* Multiplayer support
 
