@@ -5,6 +5,13 @@ This document details the organizational structure of our team. For most activit
 ### Project Manager
 Undecided
 
+### Art Assets
+
+All team members will be involved in developing art for the game. 
+
+* Sprite Art and Animation
+* Sprite Tiles
+
 ### Coding
 
 All team members will be involved in coding.
