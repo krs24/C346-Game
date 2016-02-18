@@ -3,14 +3,15 @@
 This document details the organizational structure of our team. For most activities all team members will be involved to some degree. As we begin to work out which team members will take a greater responsiblity in which areas this document will be modified to reflect those decisions. 
 
 ### Project Manager
-Undecided
+
+Alan Grant
 
 ### Art Assets
 
 All team members will be involved in developing art for the game. 
 
 * Sprite Art and Animation
-* Sprite Tiles
+* Level Tiles
 
 ### Coding
 
@@ -31,3 +32,6 @@ All team members will be involved in testing.
 
 All team members will be involved in documentation.
 
+* Bestiary
+* Player Story
+* How to Play

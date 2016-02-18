@@ -10,8 +10,10 @@ Our plan is to create a 2D roguelike game using the Unity3D Game Engine and C#. 
 
 ### Possible Game Features
 
-* Procedurally Generated Levels
+* Procedurally Generated Overland Levels
+* Procedurally Generated Cave Levels
 * Player Leveling System
+* Combat System
 * Ability to Save Current Progress
 * Multiple Enemies
 * Weapon and Armor Upgrades
