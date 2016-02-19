@@ -3,8 +3,8 @@ Group Project for Introduction to Software Engineering
 
 ### Team Members
 
-* Alan Grant
-* Jeremy Stephens
+* [Alan Grant](https://github.com/kurfew007)
+* [Jeremy Stephens](https://github.com/sSeld)
 * Kristopher O'Bryan
 * Leodan Diaz Aguilera
 
