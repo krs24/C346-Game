@@ -81,6 +81,7 @@ public class Enemy : MovingObject
 	//It overrides the OnCantMove function of MovingObject.
 	protected override void OnCantMove <T> (T component)
 	{
+		if (
 		//Set hitPlayer equal to the encountered component.
 		Player hitPlayer = component as Player;
 			

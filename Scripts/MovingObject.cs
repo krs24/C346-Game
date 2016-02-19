@@ -99,7 +99,7 @@ public abstract class MovingObject : MonoBehaviour
 		T hitComponent = hit.transform.GetComponent <T> ();
 			
 		//MovingObject has hit an item it can interact with so perform proper action
-		if(!canMove && hitComponent != null)
+		if(!canMove && hitComponent != null && gameObject.activeInHierarchy)
 			OnCantMove (hitComponent);
 	}
 		
