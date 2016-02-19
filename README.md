@@ -6,7 +6,7 @@ Group Project for Introduction to Software Engineering
 * Alan Grant
 * Jeremy Stephens
 * Kristopher O'Bryan
-* Leodan Diaz Aguilera
+* Leodan Diaz Aguilera:w
 
 ### Team Trello
 
