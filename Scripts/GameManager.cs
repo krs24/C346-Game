@@ -153,5 +153,3 @@ public class GameManager : MonoBehaviour
 		enemiesMoving = false;
 	}
 }
-
-
