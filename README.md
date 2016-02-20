@@ -5,7 +5,7 @@ Group Project for Introduction to Software Engineering
 
 * [Alan Grant](https://github.com/kurfew007)
 * [Jeremy Stephens](https://github.com/sSeld)
-* Kristopher O'Bryan
+* [Kristopher O'Bryan](https://github.com/krs24)
 * Leodan Diaz Aguilera
 
 ### Team Trello
