@@ -18,6 +18,11 @@ All team members will be involved in developing art for the game.
 All team members will be involved in coding.
 
 * Game Logic
+   * Enemy Logic
+   * Player Logic
+   * Combat Logic
+   * Leveling System
+   * Level Generation
 * UI
 * AI
 
