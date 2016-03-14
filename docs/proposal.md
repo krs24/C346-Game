@@ -14,9 +14,10 @@ Our plan is to create a 2D roguelike game using the Unity3D Game Engine and C#. 
 * Procedurally Generated Cave Levels
 * Player Leveling System
 * Combat System
-* Ability to Save Current Progress
 * Multiple Enemies
-* Weapon and Armor Upgrades
-* Multiple Player Characters
-* Multiplayer Support
+* Item System
+* Weapon And Armor Upgrade System (Possible if time allows)
+* Ability to Save Current Progress (Possible if time allows)
+* Multiple Player Characters (Possible if time allows)
+* Multiplayer Support (Possible if time allows)
 
