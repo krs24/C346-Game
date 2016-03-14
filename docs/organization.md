@@ -19,17 +19,17 @@ All team members will be involved in coding.
 
 * Game Logic
    * Enemy Logic
-   	* Currently being worked on by Alan
+   		* Currently being worked on by Alan
    * Player Logic
-   	* Currently being worked on by Alan
+   		* Currently being worked on by Alan
    * Combat Logic
-   	* Currently being worked on by Alan
+   		* Currently being worked on by Alan
    * Leveling System
    * Level Generation
-   	* Overland levels
-		* Currently being worked on by Alan
-	* Cave levels
-		* Currently being worked on by Alan
+   		* Overland levels
+			* Currently being worked on by Alan
+		* Cave levels
+			* Currently being worked on by Alan
 * UI
 * AI
 
