@@ -1,4 +1,4 @@
-HW8 Project Update
+##HW8 Project Update##
 
 Our game is coming along fairly well. We haven't had as much time to work on it lately, but we have the basic framework and much of the basic game logic done. 
 
