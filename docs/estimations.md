@@ -16,3 +16,4 @@ This document covers our estimations of effort for various tasks involved with o
 | Advanced Player Logic		| 4			| 				|		|
 | Item System 			| 8			|				|		|
 | Documentation 		| 4			|				|		|
+| Testing			| 6			| Alan, Kris			| Ongoing	|

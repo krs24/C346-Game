@@ -94,17 +94,25 @@ public class Enemy : MovingObject
 		SoundManager.instance.RandomizeSfx (attackSound1, attackSound2);
 	}
 
+	//Reduces enemy hp when attacked
+	public int ApplyDamage(int loss) {
+		hp -= loss;
+		return hp;
+	}
+
 	//Called when player attacks an enemy.
 	public void DamageEnemy (int loss)
 	{
 		//Play one of the player chop sounds.
 		SoundManager.instance.RandomizeSfx (chopSound1, chopSound2);
 
-		//Apply damamge this enemy.
-		hp -= loss;
+		//Apply damamge to this enemy.
+		int newhp = ApplyDamage(loss);
 
 		//Once the enemy is dead disable its gameObject:
-		if(hp <= 0)
+		if(newhp <= 0)
 			gameObject.SetActive(false);
 	}
+
+
 }
