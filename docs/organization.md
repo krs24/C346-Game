@@ -46,6 +46,5 @@ All team members will be involved in testing.
 
 All team members will be involved in documentation.
 
-* Bestiary
-* Player Story
 * How to Play
+* API Documentation
