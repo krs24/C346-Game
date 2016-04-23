@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 	public float levelStartDelay = 2f;						//Time to wait before starting level in seconds.
 	public float turnDelay = 0.1f;							//Delay between each Player turn.
 	public int playerHealth = 100;							//Starting value for Player health.
+    public int playerWater = 200;
+    public int playerFood = 200;
 	public static GameManager instance = null;				//Static instance of GameManager which allows it to be accessed by any other script.
 	[HideInInspector] public bool playersTurn = true;		//Boolean to check if it's player's turn.
 		

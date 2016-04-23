@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class Enemy : MovingObject
 {
@@ -9,9 +11,9 @@ public class Enemy : MovingObject
 	public int hp;										//Enemy health
 	public AudioClip chopSound1;						//1 of 2 audio clips for when player attacks enemy.
 	public AudioClip chopSound2;						//2 of 2 audio clips for when player attacks enemy.	
-
-
-	private Animator animator;							//Stores a reference to enemy's Animator component.
+    public GameObject[] enemyLoot;
+    public Vector3 playerPos;
+    private Animator animator;							//Stores a reference to enemy's Animator component.
 	private Transform target;							//Transform to attempt to move toward each turn.
 	private bool skipMove;								//Boolean to determine whether or not enemy should skip a turn or move this turn.		
 		
@@ -103,16 +105,17 @@ public class Enemy : MovingObject
 	//Called when player attacks an enemy.
 	public void DamageEnemy (int loss)
 	{
-		//Play one of the player chop sounds.
-		SoundManager.instance.RandomizeSfx (chopSound1, chopSound2);
+        Player player = GameObject.Find("Player").GetComponent<Player>();
+        //Play one of the player chop sounds.
+        SoundManager.instance.RandomizeSfx (chopSound1, chopSound2);
 
 		//Apply damamge to this enemy.
 		int newhp = ApplyDamage(loss);
-
-		//Once the enemy is dead disable its gameObject:
-		if(newhp <= 0)
-			gameObject.SetActive(false);
-	}
-
+        //Once the enemy is dead disable its gameObject:
+        if (newhp <= 0)
+            gameObject.SetActive(false);
+        
+        
+    }
 
 }

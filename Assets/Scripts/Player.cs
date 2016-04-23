@@ -4,11 +4,14 @@ using UnityEngine.UI;
 
 public class Player : MovingObject
 {
-	public float restartLevelDelay = 1f;		//Delay time in seconds to restart level.
+	public float restartLevelDelay = 1f;        //Delay time in seconds to restart level.
+    public float lootDelay = 0.1f; 
 	public int pointsPerFood = 10;				//Number of points to add to player food points when picking up a food object.
 	public int pointsPerSoda = 20;				//Number of points to add to player food points when picking up a soda object.
 	public int damage = 20;						//How much damage a player does to a wall when chopping it.
 	public Text healthText;						//UI Text to display current player food total.
+    public Text foodText;
+    public Text waterText;
 	public AudioClip moveSound1;				//1 of 2 Audio clips to play when player moves.
 	public AudioClip moveSound2;				//2 of 2 Audio clips to play when player moves.
 	public AudioClip eatSound1;					//1 of 2 Audio clips to play when player collects a food object.
@@ -16,21 +19,32 @@ public class Player : MovingObject
 	public AudioClip drinkSound1;				//1 of 2 Audio clips to play when player collects a soda object.
 	public AudioClip drinkSound2;				//2 of 2 Audio clips to play when player collects a soda object.
 	public AudioClip gameOverSound;				//Audio clip to play when player dies.
-		
-	private Animator animator;					//Used to store a reference to the Player's animator component.
-	private int health;							//Used to store player food points total during level.		
-		
-	//Override MovingObject Start
-	protected override void Start ()
+    public Slider HealthSlider;
+    public Slider WaterSlider;
+    public Slider FoodSlider;
+    public GameObject[] enemyLoot;
+
+    private bool enemyDeadFlag;
+    private Animator animator;                  //Used to store a reference to the Player's animator component.
+    private int health;                      //Used to store player food points total during level.		
+    private int food;
+    private int water;
+    private Vector3 currentPos;
+    private Vector3 lastPos;
+
+
+    //Override MovingObject Start
+    protected override void Start ()
 	{
 		//Get reference to the Player's animator
 		animator = GetComponent<Animator>();
 			
 		//Get Player's health.
 		health = GameManager.instance.playerHealth;
-			
-		//Display current health in UI.
-		healthText.text = "Health: " + health;
+        water = GameManager.instance.playerWater;
+        food = GameManager.instance.playerFood;
+
+        UpdateHUDSliders();
 			
 		//Call the Start function of the MovingObject base class.
 		base.Start ();
@@ -41,6 +55,8 @@ public class Player : MovingObject
 	{
 		//Store player health when player object disabled.
 		GameManager.instance.playerHealth = health;
+        GameManager.instance.playerWater = water;
+        GameManager.instance.playerFood = food;
 	}
 	
 	//Update every frame
@@ -76,23 +92,53 @@ public class Player : MovingObject
 		
 	//Attempt to move the Player and check if collision with Enemy
 	protected override void AttemptMove <T> (int xDir, int yDir)
-	{			
-		//Call MovingObject's AttemptMove and pass Enemy.
-		base.AttemptMove <T> (xDir, yDir);
+	{
+
+        //Call MovingObject's AttemptMove and pass Enemy.
+        base.AttemptMove <T> (xDir, yDir);
 			
 		//Use for result of linecast
 		RaycastHit2D hit;
-			
+
+        lastPos = gameObject.transform.position;
 		//If Player can move.
 		if (Move (xDir, yDir, out hit)) 
 		{
 			//Play one of the move sounds.
 			SoundManager.instance.RandomizeSfx (moveSound1, moveSound2);
+            water -= 2;
+            food -= 2;
+           
+            if(water <= 0)
+            {
+                water = 0;
+                health -= 2;
+            }
+            else if(food <= 0)
+            {
+                food = 0;
+                health -= 1;
+            }
+            else
+            {
+                health += 1;
+            }
+            if (health >= 100)
+                health = 100;
+            if (water >= 200)
+                water = 200;
+            if (food >= 200)
+                food = 200;
+            UpdateHUDSliders();
 		}
-
-		//Set the playersTurn boolean of GameManager to false now that players turn is over.
-		GameManager.instance.playersTurn = false;
-	}
+            
+        //Set the playersTurn boolean of GameManager to false now that players turn is over.
+        GameManager.instance.playersTurn = false;
+        if (enemyDeadFlag)
+        {
+            Invoke("DropLoot", lootDelay);
+        }
+    }
 		
 		
 	//OnCantMove overrides OnCantMove in MovingObject and performs appropriate action on object collided with.
@@ -106,6 +152,8 @@ public class Player : MovingObject
 			
 		//Set the attack trigger of the player's animation controller in order to play the player's attack animation.
 		animator.SetTrigger ("playerChop");
+        if (hitEnemy.hp <= 0)
+            enemyDeadFlag = true;
 	}
 		
 		
@@ -117,19 +165,18 @@ public class Player : MovingObject
 		{
 			//Start the next level with a delay of restartLevelDelay (default 1 second).
 			Invoke ("Restart", restartLevelDelay);
-				
-			//Disable the player object since level is over.
-			enabled = false;
+
+            //Disable the player object since level is over.
+            enabled = false;
 		}
 			
 		//Check if the tag of the trigger collided with is Food.
 		else if(other.tag == "Food")
 		{
-			//Add pointsPerFood to the player's health.
-			health += pointsPerFood;
-				
-			//Update healthText
-			healthText.text = "Health: " + health;
+            food += pointsPerFood;
+            if (food >= 200)
+                food = 200;
+            UpdateHUDSliders();
 				
 			//Play an eating sound.
 			SoundManager.instance.RandomizeSfx (eatSound1, eatSound2);
@@ -141,11 +188,10 @@ public class Player : MovingObject
 		//Check if the tag of the trigger collided with is Soda.
 		else if(other.tag == "Soda")
 		{
-			//Add pointsPerSoda to player's health
-			health += pointsPerSoda;
-				
-			//Update Health text.
-			healthText.text = "Health: " + health;
+            water += pointsPerSoda;
+            if (water >= 200)
+                water = 200;
+            UpdateHUDSliders();
 				
 			//Play one of the drinking sounds.
 			SoundManager.instance.RandomizeSfx (drinkSound1, drinkSound2);
@@ -173,9 +219,7 @@ public class Player : MovingObject
 			
 		//Subtract lost health
 		health -= loss;
-			
-		//Update the health display with the new total.
-		healthText.text = "Health: " + health;
+        UpdateHUDSliders();
 			
 		//Check to see if game has ended.
 		CheckIfGameOver ();
@@ -198,5 +242,22 @@ public class Player : MovingObject
 			GameManager.instance.GameOver ();
 		}
 	}
+
+    public void UpdateHUDSliders()
+    {
+        HealthSlider.value = health;
+        WaterSlider.value = water;
+        FoodSlider.value = food;
+
+        healthText.text = "" + health;
+        waterText.text = "" + water;
+        foodText.text = "" + food;
+    }
+
+    public void DropLoot()
+    {
+        Instantiate(enemyLoot[Random.Range(0, enemyLoot.Length)], lastPos, Quaternion.identity);
+        enemyDeadFlag = false;
+    }
 }
 

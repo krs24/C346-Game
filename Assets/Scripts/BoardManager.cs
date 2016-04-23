@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic; 		
 using Random = UnityEngine.Random; 		//Tells Random to use the Unity Engine random number generator.
+using UnityEngine.UI;
 
 public class BoardManager : MonoBehaviour
 {
@@ -25,10 +26,12 @@ public class BoardManager : MonoBehaviour
 	public int rows = 8;											//Number of rows in game board.
 	public Count wallCount = new Count (5, 9);						//Lower and upper limit for shrubs and walls.
 	public Count foodCount = new Count (1, 5);						//Lower and upper limit for food items.
+    public Count waterCount = new Count(1, 5);
 	public GameObject exit;											//Prefab to spawn for exit.
 	public GameObject[] floorTiles;									//Array of floor prefabs.
 	public GameObject[] wallTiles;									//Array of shrub and wall prefabs.
 	public GameObject[] foodTiles;									//Array of food prefabs.
+    public GameObject[] waterTiles;
 	public GameObject[] enemyTiles;									//Array of enemy prefabs.
 	public GameObject[] outerWallTiles;								//Array of outer tile prefabs.
 		
@@ -124,7 +127,7 @@ public class BoardManager : MonoBehaviour
 		
 		
 	//SetupScene initializes our level and calls the previous functions to lay out the game board
-	public void SetupScene (int level)
+	public void SetupScene(int level)
 	{
 		//Creates the outer walls and floor.
 		BoardSetup ();
@@ -137,9 +140,12 @@ public class BoardManager : MonoBehaviour
 			
 		//Instantiate a random number of food tiles based on minimum and maximum, at randomized positions.
 		LayoutObjectAtRandom (foodTiles, foodCount.minimum, foodCount.maximum);
-			
-		//Determine number of enemies based on current level number, based on a logarithmic progression
-		int enemyCount = (int)Mathf.Log(level, 2f);
+
+        //Instantiate a random number of water tiles based on minimum and maximum, at randomized positions.
+        LayoutObjectAtRandom(waterTiles, waterCount.minimum, waterCount.maximum);
+
+        //Determine number of enemies based on current level number, based on a logarithmic progression
+        int enemyCount = (int)Mathf.Log(level, 2f);
 			
 		//Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
 		LayoutObjectAtRandom (enemyTiles, enemyCount, enemyCount);
