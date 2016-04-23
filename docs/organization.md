@@ -32,7 +32,7 @@ All team members will be involved in coding.
 			* Currently being worked on by Alan
 * UI
 	* HUD 
-		*Currently being worked on by Jeremy with some help from Alan 	
+	*Currently being worked on by Jeremy with some help from Alan 	
 
 ### Testing
 
