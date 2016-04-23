@@ -31,8 +31,8 @@ All team members will be involved in coding.
 		* Cave levels
 			* Currently being worked on by Alan
 * UI
-	* HUD 
-	*Currently being worked on by Jeremy with some help from Alan 	
+	* HUD   
+		* Currently being worked on by Jeremy with some help from Alan 	
 
 ### Testing
 
