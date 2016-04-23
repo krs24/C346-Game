@@ -31,7 +31,8 @@ All team members will be involved in coding.
 		* Cave levels
 			* Currently being worked on by Alan
 * UI
-* AI
+	* HUD 
+		*Currently being worked on by Jeremy with some help from Alan 	
 
 ### Testing
 
@@ -39,6 +40,7 @@ All team members will be involved in testing.
 
 * Unit Testing
 * Play Testing
+	* All team members involved in play testing. 
 
 ### Documentation
 
