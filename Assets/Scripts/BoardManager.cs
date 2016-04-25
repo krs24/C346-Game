@@ -4,16 +4,31 @@ using System.Collections.Generic;
 using Random = UnityEngine.Random; 		//Tells Random to use the Unity Engine random number generator.
 using UnityEngine.UI;
 
+/// <summary>
+/// This class takes care of setting up the game world. Inherits from MonoBehaviour.
+/// </summary>
 public class BoardManager : MonoBehaviour
 {
+	/// <summary>
+	/// Internal class used for storing a count range.
+	/// </summary>
 	[Serializable]
 	public class Count
 	{
-		public int minimum; 			
+		/// <summary>
+		/// Stores the minimum number for the range.
+		/// </summary>
+		public int minimum; 	\
+
+		/// <summary>
+		/// Stores the maximum number for the range. 
+		/// </summary>		
 		public int maximum; 			
 			
 			
-		//Assignment constructor.
+		/// <summary>
+		/// Basic constructor. 
+		/// </summary>
 		public Count (int min, int max)
 		{
 			minimum = min;
@@ -22,24 +37,80 @@ public class BoardManager : MonoBehaviour
 	}
 		
 
-	public int columns = 8; 										//Number of columns in game board.
-	public int rows = 8;											//Number of rows in game board.
-	public Count wallCount = new Count (5, 9);						//Lower and upper limit for shrubs and walls.
-	public Count foodCount = new Count (1, 5);						//Lower and upper limit for food items.
+	/// <summary>
+	/// Number of columns in game board.
+	/// </summary>
+	public int columns = 8; 
+	
+	/// <summary>
+	/// Number of rows in game board.
+	/// </summary>	
+	public int rows = 8;	
+	
+	/// <summary>
+	/// Lower and upper limit for shrubs and walls.
+	/// </summary>
+	public Count wallCount = new Count (5, 9);		
+	
+	/// <summary>
+	/// Lower and upper limit for food items.
+	/// </summary>
+	public Count foodCount = new Count (1, 5);						
+   
+	/// <summary>
+	/// Lower and upper limit for water items. 
+	/// </summary>
     public Count waterCount = new Count(1, 5);
-	public GameObject exit;											//Prefab to spawn for exit.
-	public GameObject[] floorTiles;									//Array of floor prefabs.
-	public GameObject[] wallTiles;									//Array of shrub and wall prefabs.
-	public GameObject[] foodTiles;									//Array of food prefabs.
-    public GameObject[] waterTiles;
-	public GameObject[] enemyTiles;									//Array of enemy prefabs.
-	public GameObject[] outerWallTiles;								//Array of outer tile prefabs.
+	
+	/// <summary>
+	/// The exit object. 
+	/// </summary>
+	public GameObject exit;											
+	
+	/// <summary>
+	/// Array storing floor tile prefabs. 
+	/// </summary>
+	public GameObject[] floorTiles;									
+	
+	/// <summary>
+	/// Array storing wall tile prefabs. 
+	/// </summary>
+	public GameObject[] wallTiles;									
+	
+	/// <summary>
+	/// Array storing food tile prefabs. 
+	/// </summary>
+	public GameObject[] foodTiles;								
+    
+	/// <summary>
+	/// Array storing water tile prefabs. 
+	/// </summary>
+	public GameObject[] waterTiles;
+	
+	/// <summary>
+	/// Array storing enemy tile prefabs. 
+	/// </summary>
+	public GameObject[] enemyTiles;								
+	
+	/// <summary>
+	/// NArray storing outer wall tile prefabs. 
+	/// </summary>
+	public GameObject[] outerWallTiles;								
 		
-	private Transform boardHolder;									//A variable to store a reference to the transform of our Board object.
-	private List <Vector3> gridPositions = new List <Vector3> ();	//A list of possible locations to place tiles.
+	/// <summary>
+	/// A variable to store a reference to the transform of our Board object.
+	/// </summary>
+	private Transform boardHolder;		
+	
+	/// <summary>
+	/// A list of possible locations to place tiles.
+	/// </summary>
+	private List <Vector3> gridPositions = new List <Vector3> ();	
 		
 		
-	//Clears our list gridPositions and prepares it to generate a new board.
+	/// <summary>
+	/// Initializes the board array.
+	/// </summary>
 	void InitialiseList ()
 	{
 		//Clear our list of gridPositions.
@@ -57,8 +128,9 @@ public class BoardManager : MonoBehaviour
 		}
 	}
 		
-		
-	//Sets up the outer walls and floor (background) of the game board.
+	/// <summary>
+	/// Sets up the outer walls and floor (background) of the game board.
+	/// </summary>
 	void BoardSetup ()
 	{
 		//Instantiate Board and set boardHolder to its transform.
@@ -87,8 +159,12 @@ public class BoardManager : MonoBehaviour
 		}
 	}
 		
-		
-	//Returns a random position from our list gridPositions.
+	/// <summary>
+	/// Calculates a random position on the grid.
+	/// </summary>	
+	/// <returns>
+	/// A Vector3 representing the random grid position. 
+	/// </returns>
 	Vector3 RandomPosition ()
 	{
 		//Random number between 0 and the count of items in gridPositions.
@@ -104,8 +180,18 @@ public class BoardManager : MonoBehaviour
 		return randomPosition;
 	}
 		
-		
-	//LayoutObjectAtRandom accepts an array of game objects to choose from along with a minimum and maximum range for the number of objects to create.
+	/// <summary>
+	/// Calculates a random position on the grid.
+	/// </summary>	
+	/// <param name="tileArray">
+	/// The tile array to fill.
+	/// </param>
+	/// <param name="minimum">
+	/// The minimum number of corresponding items to insert. 
+	/// </param>
+	/// <param name="maximum">
+	/// The maximum number of corresponding items to insert.
+	/// </param>
 	void LayoutObjectAtRandom (GameObject[] tileArray, int minimum, int maximum)
 	{
 		//Choose a random number of objects to instantiate within the minimum and maximum limits
@@ -125,8 +211,12 @@ public class BoardManager : MonoBehaviour
 		}
 	}
 		
-		
-	//SetupScene initializes our level and calls the previous functions to lay out the game board
+	/// <summary>
+	/// SetupScene initializes our level and calls the previous functions to lay out the game board
+	/// </summary>	
+	/// <param name="level">
+	/// The current level number. 
+	/// </param>		
 	public void SetupScene(int level)
 	{
 		//Creates the outer walls and floor.

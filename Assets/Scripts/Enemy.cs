@@ -3,21 +3,69 @@ using System.Collections;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// This the main controller script for Enemies in the game. Inherits from MovingObject 
+/// </summary>
 public class Enemy : MovingObject
 {
-	public int playerDamage; 							//Amount of health to subtract from player.
-	public AudioClip attackSound1;						//First of two audio clips to play when attacking the player.
-	public AudioClip attackSound2;						//Second of two audio clips to play when attacking the player.
+	/// <summary>
+	/// Amount of health to subtract from player.
+	/// </summary>
+	public int playerDamage; 							
+	
+	/// <summary>
+	/// Stores the first enemy attack sound.
+	/// </summary>
+	public AudioClip attackSound1;						
+	
+	/// <summary>
+	/// Stores the second enemy attack sound.
+	/// </summary>
+	public AudioClip attackSound2;					
+	
+	/// <summary>
+	/// Stores the enemy's current health.
+	/// </summary>
 	public int hp;										//Enemy health
-	public AudioClip chopSound1;						//1 of 2 audio clips for when player attacks enemy.
-	public AudioClip chopSound2;						//2 of 2 audio clips for when player attacks enemy.	
-    public GameObject[] enemyLoot;
+	
+	/// <summary>
+	/// Stores the first player attack sound.
+	/// </summary>
+	public AudioClip chopSound1;
+	
+	/// <summary>
+	/// Stores the second player attack sound.
+	/// </summary>
+	public AudioClip chopSound2;
+	
+	/// <summary>
+	/// Stores special loot to be dropped upon enemy death.
+	/// </summary>
+	public GameObject[] enemyLoot;
+	
+	/// <summary>
+	/// Stores the player object's current position in the world. 
+	/// </summary>
     public Vector3 playerPos;
-    private Animator animator;							//Stores a reference to enemy's Animator component.
-	private Transform target;							//Transform to attempt to move toward each turn.
-	private bool skipMove;								//Boolean to determine whether or not enemy should skip a turn or move this turn.		
+	
+	/// <summary>
+	/// Stores a reference to enemy's Animator component.
+	/// </summary>
+    private Animator animator;							
+	
+	/// <summary>
+	/// Transform of the player object's position. Enemies attempt to move toward the player each turn.
+	/// </summary>
+	private Transform target;						
+	
+	/// <summary>
+	/// Enemies move one turn for every two player turns. Stores whether it is the enemy's turn or not.
+	/// </summary>
+	private bool skipMove;						
 		
-	//Override MovingObject's start.
+	/// <summary>
+	/// Overrides the base class' Start method. 
+	/// </summary>
 	protected override void Start ()
 	{
 		//Add this enemy to list of enemies
@@ -34,7 +82,15 @@ public class Enemy : MovingObject
 	}
 		
 		
-	//Override MovingObject's AttemptMove
+	/// <summary>
+	/// Overrides the base class' AttemptMove to provide enemy specific functionality.
+	/// </summary>
+	/// <param name="xDir">
+	/// X direction the object is trying to move.
+	/// </param>
+	/// <param name="yDir">
+	/// Y direction the object is trying to move.
+	/// </param>
 	protected override void AttemptMove <T> (int xDir, int yDir)
 	{
 		//Check if skipMove is true, if so set it to false and skip this turn.
@@ -52,7 +108,9 @@ public class Enemy : MovingObject
 	}
 		
 		
-	//MoveEnemy is called by the GameManger each turn to tell each Enemy to try to move towards the player.
+	/// <summary>
+	/// Moves the enemy toward the player each enemy turn. 
+	/// </summary>
 	public void MoveEnemy ()
 	{
 		//Declare variables for X and Y axis move directions, these range from -1 to 1.
@@ -78,9 +136,13 @@ public class Enemy : MovingObject
 		AttemptMove <Player> (xDir, yDir);
 	}
 		
-		
-	//OnCantMove is called if Enemy attempts to move into a space occupied by a Player.
-	//It overrides the OnCantMove function of MovingObject.
+	/// <summary>
+	/// If the enemy can't move because of a collision this method causes the enemy to take 
+	/// appropriate action based on what it has collided with. Overrides the base class' OnCantMove.
+	/// </summary>
+	/// <param name="component">
+	/// The type of component the enemy has collided with.
+	/// </param>
 	protected override void OnCantMove <T> (T component)
 	{
 		//Set hitPlayer equal to the encountered component.
@@ -96,13 +158,23 @@ public class Enemy : MovingObject
 		SoundManager.instance.RandomizeSfx (attackSound1, attackSound2);
 	}
 
-	//Reduces enemy hp when attacked
+	/// <summary>
+	/// Subtracts enemy health whenever the enemy is attacked by the player. 
+	/// </summary>
+	/// <param name="loss">
+	/// The amount of HP to subtract from the enemy's health.
+	/// </param>
 	public int ApplyDamage(int loss) {
 		hp -= loss;
 		return hp;
 	}
 
-	//Called when player attacks an enemy.
+	/// <summary>
+	/// When the player attacks the enemy this method runs the logic to apply any damage done by the player.
+	/// </summary>
+	/// <param name="loss">
+	/// The amount of damage to be applied. 
+	/// </param>
 	public void DamageEnemy (int loss)
 	{
         Player player = GameObject.Find("Player").GetComponent<Player>();
