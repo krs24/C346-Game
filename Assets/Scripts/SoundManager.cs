@@ -30,8 +30,8 @@ public class SoundManager : MonoBehaviour
 		
      
 	/// <summary>
-     /// This method is a general UnityEngine method used to initialize data before the game actually starts.
-     /// </summary>	
+    /// This method is a general UnityEngine method used to initialize data before the game actually starts.
+    /// </summary>	
 	void Awake ()
 	{
 		//Check if there is already an instance of SoundManager
