@@ -2,8 +2,8 @@
 using System.Collections;
 
 /// <summary>
-/// This class inherits from Unity's MonoBehaviour class. It acts as the sound controller for most sound related actions
-/// in the game. 
+/// This class acts as the sound controller for most sound related actions in the game. 
+/// Inherits from MonoBehavior.
 /// </summary>
 public class SoundManager : MonoBehaviour 
 {

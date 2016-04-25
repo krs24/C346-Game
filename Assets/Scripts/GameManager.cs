@@ -2,28 +2,87 @@
 using System.Collections;
 using System.Collections.Generic;		
 using UnityEngine.UI;					//Allows us to use UI.
-	
+
+
+/// <summary>
+/// This class acts as the controller for the overall game instance. Inherits from MonoBehavior.
+/// </summary>	
 public class GameManager : MonoBehaviour
 {
-	public float levelStartDelay = 2f;						//Time to wait before starting level in seconds.
-	public float turnDelay = 0.1f;							//Delay between each Player turn.
-	public int playerHealth = 100;							//Starting value for Player health.
-    public int playerWater = 200;
-    public int playerFood = 200;
-	public static GameManager instance = null;				//Static instance of GameManager which allows it to be accessed by any other script.
-	[HideInInspector] public bool playersTurn = true;		//Boolean to check if it's player's turn.
-		
-		
-	private Text levelText;									//Text to display current level number.
-	private GameObject levelImage;							//Image to block out level as levels are being set up, background for levelText.
-	private BoardManager boardScript;						//Store a reference to our BoardManager which will set up the level.
-	private int level = 1;									//Current level number, expressed in game as "Day 1".
-	private List<Enemy> enemies;							//List of all Enemy units, used to issue them move commands.
-	private bool enemiesMoving;								//Boolean to check if enemies are moving.
-	private bool doingSetup = true;							//Boolean to check if we're setting up board, prevent Player movement during setup.
-		
-	//Awake is always called before any Start functions
-	void Awake()
+     /// <summary>
+     /// The delay to be used in between levels. Unit is seconds.
+     /// </summary>
+	public float levelStartDelay = 2f;		
+     
+     /// <summary>
+     /// Delay between each player turn. Unit is seconds. 
+     /// </summary>				
+	public float turnDelay = 0.1f;
+
+     /// <summary>
+     /// Player character's starting health. 
+     /// </summary>		
+     public int playerHealth = 100;
+
+     /// <summary>
+     /// Player character's starting water. 
+     /// </summary>		
+     public int playerWater = 200;
+    
+     /// <summary>
+     /// Player character's starting food. 
+     /// </summary>		
+     public int playerFood = 200;
+
+     /// <summary>
+     /// Stores a static reference to the current GameManager.
+     /// </summary>		
+     public static GameManager instance = null;
+
+     /// <summary>
+     /// Boolean storing whether it is the player's turn. 
+     /// </summary>		
+     [HideInInspector] public bool playersTurn = true;
+
+     /// <summary>
+     /// Text displaying the current level whenever a new level is loaded. 
+     /// </summary>		
+     private Text levelText;
+
+     /// <summary>
+     /// Stores a reference to the level load screen. 
+     /// </summary>		
+     private GameObject levelImage;
+
+     /// <summary>
+     /// Stores a reference to the instance of the BoardManager being used. 
+     /// </summary>		
+     private BoardManager boardScript;
+
+     /// <summary>
+     /// The current level. 
+     /// </summary>		
+     private int level = 1;
+
+     /// <summary>
+     /// Stores the enemies to be spawned on the level. 
+     /// </summary>		
+     private List<Enemy> enemies;
+
+     /// <summary>
+     /// Boolean to detect if enemies are moving. Used to determine if player or enemy move. 
+     /// </summary>		
+     private bool enemiesMoving;
+
+     /// <summary>
+     /// Boolean to check if we're setting up board. Used to prevent Player movement during setup.
+     /// </summary>		
+     private bool doingSetup = true;
+
+     /// <summary>
+     /// This method is a general UnityEngine method used to initialize data before the game actually starts.
+     /// </summary>	
+     void Awake()
 	{
 		//Check if instance already exists
 		if (instance == null)
@@ -50,7 +109,9 @@ public class GameManager : MonoBehaviour
 		InitGame();
 	}
 		
-	//This is called each time a scene is loaded.
+	/// <summary>
+	/// Takes care minutiae to be done at beginning of level load. 
+	/// </summary>
 	void OnLevelWasLoaded(int index)
 	{
 		//Add one to our level number.
@@ -59,7 +120,9 @@ public class GameManager : MonoBehaviour
 		InitGame();
 	}
 		
-	//Initializes the game for each level.
+	/// <summary>
+	/// Initializes the game instance and begins prep for the game to be played. 
+	/// </summary>
 	void InitGame()
 	{
 		//doingSetup is true to prevent player movement.
@@ -89,7 +152,9 @@ public class GameManager : MonoBehaviour
 	}
 		
 		
-	//Hides black image used between levels
+	/// <summary>
+	/// Hides the level image when the level is loaded and the player begins to play.
+	/// </summary>
 	void HideLevelImage()
 	{
 		//Disable the levelImage gameObject.
@@ -99,7 +164,9 @@ public class GameManager : MonoBehaviour
 		doingSetup = false;
 	}
 		
-	//Update is called every frame.
+	/// <summary>
+	/// Updates the scene every frame to reflect all changes made.  
+	/// </summary>
 	void Update()
 	{
 		//Check that playersTurn or enemiesMoving or doingSetup are not currently true.
@@ -112,7 +179,12 @@ public class GameManager : MonoBehaviour
 		StartCoroutine (MoveEnemies ());
 	}
 		
-	//Call this to add the passed in Enemy to the List of Enemy objects.
+	/// <summary>
+	/// Adds enemy to list of enemies so it can be displayed in the game world. 
+	/// </summary>
+	/// <param name="script">
+	/// An instance of the Enemy class to add to the enemies list. 
+	/// </param>
 	public void AddEnemyToList(Enemy script)
 	{
 		//Add Enemy to List enemies.
@@ -120,7 +192,9 @@ public class GameManager : MonoBehaviour
 	}
 		
 		
-	//GameOver is called when the player reaches 0 health
+	/// <summary>
+	/// GameOver is run whenever the player health >= 0. Starts the death screen. 
+	/// </summary>
 	public void GameOver()
 	{
 		//Set levelText to display number of levels passed and game over message
@@ -133,7 +207,12 @@ public class GameManager : MonoBehaviour
 		enabled = false;
 	}
 		
-	//Coroutine to move enemies in sequence.
+	/// <summary>
+	/// Coroutine used to aid in enemy movement. 
+	/// </summary>
+	/// <returns>
+	/// Returns an IEnumerator causing the Enemy to wait for a specified time before moving again.
+	/// </returns>
 	IEnumerator MoveEnemies()
 	{
 		//While enemiesMoving is true player is unable to move.
