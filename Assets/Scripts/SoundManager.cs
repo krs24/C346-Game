@@ -1,15 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// This class inherits from Unity's MonoBehaviour class. It acts as the sound controller for most sound related actions
+/// in the game. 
+/// </summary>
 public class SoundManager : MonoBehaviour 
 {
-	public AudioSource efxSource;					//Drag a reference to the audio source which will play the sound effects.
-	public AudioSource musicSource;					//Drag a reference to the audio source which will play the music.
-	public static SoundManager instance = null;		//Allows other scripts to call functions from SoundManager.				
-	public float lowPitchRange = .95f;				//The lowest a sound effect will be randomly pitched.
-	public float highPitchRange = 1.05f;			//The highest a sound effect will be randomly pitched.
+     /// <summary>
+     /// Variable to store the audio source for sound effects.
+     /// </summary>
+	public AudioSource efxSource;
+     /// <summary>
+     /// Variable to store the audio source for background music.
+     /// </summary>				
+     public AudioSource musicSource;					
+     /// <summary>
+     /// Static instance of the sound manager.
+     /// </summary>
+	public static SoundManager instance = null;
+     /// <summary>
+     /// Variable for lower end of pitch modulation.
+     /// </summary>				
+     public float lowPitchRange = .95f;
+     /// <summary>
+     /// Variable for higher end of pitch modulation.
+     /// </summary>
+     public float highPitchRange = 1.05f;			
 		
-		
+     
+	/// <summary>
+     /// This method is a general UnityEngine method used to initialize data before the game actually starts.
+     /// </summary>	
 	void Awake ()
 	{
 		//Check if there is already an instance of SoundManager
@@ -24,10 +46,14 @@ public class SoundManager : MonoBehaviour
 		//Set SoundManager to DontDestroyOnLoad so that it won't be destroyed when reloading our scene.
 		DontDestroyOnLoad (gameObject);
 	}
-		
-		
-	//Used to play single sound clips.
-	public void PlaySingle(AudioClip clip)
+
+     /// <summary>
+     /// This method initiates the playing of single sound audio clips.
+     /// </summary>	
+     /// <param name="clip">
+     /// AudioClip to be played.
+     /// </param> 
+     public void PlaySingle(AudioClip clip)
 	{
 		//Set the clip of our efxSource audio source to the clip passed in as a parameter.
 		efxSource.clip = clip;
@@ -35,10 +61,14 @@ public class SoundManager : MonoBehaviour
 		//Play the clip.
 		efxSource.Play ();
 	}
-		
-		
-	//RandomizeSfx chooses randomly between various audio clips and slightly changes their pitch.
-	public void RandomizeSfx (params AudioClip[] clips)
+
+     /// <summary>
+     /// Chooses randomly between various audio clips and slightly changes their pitch
+     /// </summary>	
+     /// <param name="clips">
+     /// Array containing audio clips to choose from. 
+     /// </param>
+     public void RandomizeSfx (params AudioClip[] clips)
 	{
 		//Generate a random number between 0 and the length of our array of clips passed in.
 		int randomIndex = Random.Range(0, clips.Length);
