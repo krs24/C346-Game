@@ -26,3 +26,4 @@ Use the Left, Right, Up and Down arrow keys to navigate the playing board. To at
 You have three main attributes, Health, Thirst and Hunger. Thirst and Hunger will decrement over time keeping you on the lookout for any food and water drops throughout the world to replenish these attributes.
 If Hunger or Thirst reaches 0 then your Health will slowly start to decrement until you find the appropriate resource.
 
+[API Documentation](http://kurfew007.github.io/C346-Game/)
