@@ -5,9 +5,11 @@ using UnityEngine.UI;
 public class Player : MovingObject
 {
 	public float restartLevelDelay = 1f;        //Delay time in seconds to restart level.
-    public float lootDelay = 0.1f; 
+    public float lootDelay = 0.01f; 
 	public int pointsPerFood = 10;				//Number of points to add to player food points when picking up a food object.
-	public int pointsPerSoda = 20;				//Number of points to add to player food points when picking up a soda object.
+	public int pointsPerSoda = 15;				//Number of points to add to player food points when picking up a soda object.
+     public int pointsPerSirloin = 40;
+     public int pointsPerWater = 40;
 	public int damage = 20;						//How much damage a player does to a wall when chopping it.
 	public Text healthText;						//UI Text to display current player food total.
     public Text foodText;
@@ -24,7 +26,6 @@ public class Player : MovingObject
     public Slider FoodSlider;
     public GameObject[] enemyLoot;
 
-    private bool enemyDeadFlag;
     private Animator animator;                  //Used to store a reference to the Player's animator component.
     private int health;                      //Used to store player food points total during level.		
     private int food;
@@ -134,10 +135,6 @@ public class Player : MovingObject
             
         //Set the playersTurn boolean of GameManager to false now that players turn is over.
         GameManager.instance.playersTurn = false;
-        if (enemyDeadFlag)
-        {
-            Invoke("DropLoot", lootDelay);
-        }
     }
 		
 		
@@ -153,7 +150,7 @@ public class Player : MovingObject
 		//Set the attack trigger of the player's animation controller in order to play the player's attack animation.
 		animator.SetTrigger ("playerChop");
         if (hitEnemy.hp <= 0)
-            enemyDeadFlag = true;
+               Invoke("DropLoot", lootDelay);
 	}
 		
 		
@@ -184,9 +181,21 @@ public class Player : MovingObject
 			//Disable the food object.
 			other.gameObject.SetActive (false);
 		}
-			
-		//Check if the tag of the trigger collided with is Soda.
-		else if(other.tag == "Soda")
+          else if (other.tag == "Sirloin")
+          {
+               food += pointsPerSirloin;
+               if (food >= 200)
+                    food = 200;
+               UpdateHUDSliders();
+
+               //Play an eating sound.
+               SoundManager.instance.RandomizeSfx(eatSound1, eatSound2);
+
+               //Disable the food object.
+               other.gameObject.SetActive(false);
+          }
+          //Check if the tag of the trigger collided with is Soda.
+          else if(other.tag == "Soda")
 		{
             water += pointsPerSoda;
             if (water >= 200)
@@ -199,7 +208,20 @@ public class Player : MovingObject
 			//Disable the soda object.
 			other.gameObject.SetActive (false);
 		}
-	}
+          else if (other.tag == "Water")
+          {
+               water += pointsPerWater;
+               if (water >= 200)
+                    water = 200;
+               UpdateHUDSliders();
+
+               //Play one of the drinking sounds.
+               SoundManager.instance.RandomizeSfx(drinkSound1, drinkSound2);
+
+               //Disable the soda object.
+               other.gameObject.SetActive(false);
+          }
+     }
 		
 		
 	//Restart reloads the scene when called.
@@ -257,7 +279,6 @@ public class Player : MovingObject
     public void DropLoot()
     {
         Instantiate(enemyLoot[Random.Range(0, enemyLoot.Length)], lastPos, Quaternion.identity);
-        enemyDeadFlag = false;
     }
 }
 
