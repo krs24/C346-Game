@@ -2,39 +2,145 @@
 using System.Collections;
 using UnityEngine.UI;
 
+/// <summary>
+/// This the main controller script for Players in the game. Inherits from MovingObject 
+/// </summary>
 public class Player : MovingObject
 {
-	public float restartLevelDelay = 1f;        //Delay time in seconds to restart level.
-    public float lootDelay = 0.01f; 
-	public int pointsPerFood = 10;				//Number of points to add to player food points when picking up a food object.
-	public int pointsPerSoda = 15;				//Number of points to add to player food points when picking up a soda object.
-     public int pointsPerSirloin = 40;
-     public int pointsPerWater = 40;
-	public int damage = 20;						//How much damage a player does to a wall when chopping it.
-	public Text healthText;						//UI Text to display current player food total.
-    public Text foodText;
-    public Text waterText;
-	public AudioClip moveSound1;				//1 of 2 Audio clips to play when player moves.
-	public AudioClip moveSound2;				//2 of 2 Audio clips to play when player moves.
-	public AudioClip eatSound1;					//1 of 2 Audio clips to play when player collects a food object.
-	public AudioClip eatSound2;					//2 of 2 Audio clips to play when player collects a food object.
-	public AudioClip drinkSound1;				//1 of 2 Audio clips to play when player collects a soda object.
-	public AudioClip drinkSound2;				//2 of 2 Audio clips to play when player collects a soda object.
-	public AudioClip gameOverSound;				//Audio clip to play when player dies.
-    public Slider HealthSlider;
-    public Slider WaterSlider;
-    public Slider FoodSlider;
-    public GameObject[] enemyLoot;
+	/// <summary>
+	/// Delay time in seconds to restart level.
+	/// </summary>
+	public float restartLevelDelay = 1f;        
 
-    private Animator animator;                  //Used to store a reference to the Player's animator component.
-    private int health;                      //Used to store player food points total during level.		
-    private int food;
-    private int water;
-    private Vector3 currentPos;
-    private Vector3 lastPos;
+	/// <summary>
+	/// Delay time to drop loot delay.
+	/// </summary>	
+	public float lootDelay = 0.01f; 
+		
+	/// <summary>
+	/// Points gained for normal food.
+	/// </summary>
+	public int pointsPerFood = 10;				
+	
+	/// <summary>
+	/// Points gained for normal drink.
+	/// </summary>
+	public int pointsPerSoda = 15;				
+   
+  	/// <summary>
+	/// Points gained for sirloin.
+	/// </summary>
+	public int pointsPerSirloin = 40;
+    
+	/// <summary>
+	/// Points gained for enemy dropped water.
+	/// </summary>
+	public int pointsPerWater = 40;
+	
+	/// <summary>
+	/// The amount of damage done to enemy units when the player attacks.
+	/// </summary>
+	public int damage = 20;					
+	
+	/// <summary>
+	/// Text to display the current amount of health. 
+	/// </summary>
+	public Text healthText;					
+    
+	/// <summary>
+	/// Text to display the current amount of food.
+	/// </summary>
+	public Text foodText;
+    
+	/// <summary>
+	/// Text to display the current amount of water.
+	/// </summary>
+	public Text waterText;
+
+	/// <summary>
+	/// First movement sound. 
+	/// </summary>
+	public AudioClip moveSound1;		
+	
+	/// <summary>
+	///  First movement sound. 
+	/// </summary>
+	public AudioClip moveSound2;
+	
+	/// <summary>
+	/// First eat sound.
+	/// </summary>
+	public AudioClip eatSound1;					
+	
+	/// <summary>
+	///  Second eat sound.
+	/// </summary>
+	public AudioClip eatSound2;					
+	
+	/// <summary>
+	///  First drink sound.
+	/// </summary>
+	public AudioClip drinkSound1;				
+	
+	/// <summary>
+	///  Second drink sound.
+	/// </summary>
+	public AudioClip drinkSound2;				
+	
+	/// <summary>
+	/// Stores a reference to the sound played when the player dies.
+	/// </summary>
+	public AudioClip gameOverSound;	
+    
+	/// <summary>
+	/// Stores reference to the health slider. 
+	/// </summary>
+	public Slider HealthSlider;
+    
+	/// <summary>
+	/// Stores reference to the water slider. 
+	/// </summary>
+	public Slider WaterSlider;
+    
+	/// <summary>
+	/// Stores reference to the food slider. 
+	/// </summary>
+	public Slider FoodSlider;
+    
+	/// <summary>
+	/// Array storing enemy loot.
+	/// </summary>
+	public GameObject[] enemyLoot;
+
+	/// <summary>
+	/// Stores a reference to the animator for the player. 
+	/// </summary>
+    private Animator animator;                  
+    
+	/// <summary>
+	/// The player's current health. 
+	/// </summary>
+	private int health;                      
+    
+	/// <summary>
+	/// The player's current food amount. 
+	/// </summary>
+	private int food;
+    
+	/// <summary>
+	/// The player's current water amount
+	/// </summary>
+	private int water;
+        
+	/// <summary>
+	/// The player's last known position.
+	/// </summary>
+	private Vector3 lastPos;
 
 
-    //Override MovingObject Start
+	/// <summary>
+	/// Overrides the base class' Start method. 
+	/// </summary>
     protected override void Start ()
 	{
 		//Get reference to the Player's animator
@@ -51,7 +157,9 @@ public class Player : MovingObject
 		base.Start ();
 	}
 		
-	//Called when Player object is disabled.
+	/// <summary>
+	/// When the player is disabled this method stores the current states in the G
+	/// </summary>
 	private void OnDisable ()
 	{
 		//Store player health when player object disabled.
@@ -60,7 +168,9 @@ public class Player : MovingObject
         GameManager.instance.playerFood = food;
 	}
 	
-	//Update every frame
+	/// <summary>
+	/// Updates the players actions every frame.
+	/// </summary>
 	private void Update ()
 	{
 		//If it's not the player's turn, exit the function.
@@ -91,7 +201,15 @@ public class Player : MovingObject
 		}
 	}
 		
-	//Attempt to move the Player and check if collision with Enemy
+	/// <summary>
+	/// Overrides the base class' AttemptMove to provide Player specific functionality.
+	/// </summary>
+	/// <param name="xDir">
+	/// X direction the player is trying to move.
+	/// </param>
+	/// <param name="yDir">
+	/// Y direction the player is trying to move.
+	/// </param>
 	protected override void AttemptMove <T> (int xDir, int yDir)
 	{
 
@@ -138,7 +256,13 @@ public class Player : MovingObject
     }
 		
 		
-	//OnCantMove overrides OnCantMove in MovingObject and performs appropriate action on object collided with.
+	/// <summary>
+	/// If the player can't move because of a collision this method causes the player to take 
+	/// appropriate action based on what it has collided with. Overrides the base class' OnCantMove.
+	/// </summary>
+	/// <param name="component">
+	/// The type of component the player has collided with.
+	/// </param>
 	protected override void OnCantMove <T> (T component)
 	{
 		//Set hitWall to equal the component passed in as a parameter.
@@ -154,7 +278,12 @@ public class Player : MovingObject
 	}
 		
 		
-	//OnTriggerEnter2D is sent when another object enters a trigger collider attached to this object (2D physics only).
+	/// <summary>
+	/// If the object is on another reference level than the player has this method controls what happens.
+	/// </summary>
+	/// <param name="other">
+	/// The 2D object the player has collided with.
+	/// </param>
 	private void OnTriggerEnter2D (Collider2D other)
 	{
 		//Check if the tag of the trigger collided with is Exit.
@@ -224,7 +353,9 @@ public class Player : MovingObject
      }
 		
 		
-	//Restart reloads the scene when called.
+	/// <summary>
+	/// If the player goes to the exit this starts the next level. 
+	/// </summary>
 	private void Restart ()
 	{
           //Load the last scene loaded, in this case Main, the only scene in the game.
@@ -232,8 +363,12 @@ public class Player : MovingObject
      }
 		
 		
-	//LoseHealth is called when an enemy attacks the player.
-	//It takes a parameter loss which specifies how many points to lose.
+	/// <summary>
+	/// When an enemy attacks a player this method applies the damage. 
+	/// </summary>
+	/// <param name="loss">
+	/// The amount of damage to apply.
+	/// </param>
 	public void LoseHealth (int loss)
 	{
 		//Play player hit animation
@@ -248,7 +383,9 @@ public class Player : MovingObject
 	}
 		
 		
-	//Check if player is dead and game is over.
+	/// <summary>
+	/// If the player is dead this calls the appropriate method from the GameManager. 
+	/// </summary>
 	private void CheckIfGameOver ()
 	{
 		//Check if health is <= zero
@@ -265,6 +402,9 @@ public class Player : MovingObject
 		}
 	}
 
+	/// <summary>
+	/// Updates the HUD whenever the values are changed. 
+	/// </summary>
     public void UpdateHUDSliders()
     {
         HealthSlider.value = health;
@@ -276,6 +416,9 @@ public class Player : MovingObject
         foodText.text = "" + food;
     }
 
+	/// <summary>
+	/// When an enemy is killed selects a piece of loot to drop.
+	/// </summary>
     public void DropLoot()
     {
         Instantiate(enemyLoot[Random.Range(0, enemyLoot.Length)], lastPos, Quaternion.identity);
