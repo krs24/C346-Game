@@ -1,17 +1,40 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Base class for any moving object in the game. Player and Enemy are children of MovingObject.
+/// Inherits from MonoBehaviour 
+/// </summary>
 public abstract class MovingObject : MonoBehaviour
 {
-	public float moveTime = 0.1f;			//Time it will take object to move, in seconds.
-	public LayerMask blockingLayer;			//Layer on which collision will be checked.
+	/// <summary>
+	/// The time the object will take to move. Unit is seconds. 
+	/// </summary>
+	public float moveTime = 0.1f;
+	
+	/// <summary>
+	/// Collision checking layer.
+	/// </summary>
+	public LayerMask blockingLayer;
 		
+	/// <summary>
+	/// 2D collider used to detect collisions. 
+	/// </summary>		
+	private BoxCollider2D boxCollider; 		
+	
+	/// <summary>
+	/// 2D rigid body used for movement of 2D objects. 
+	/// </summary>	
+	private Rigidbody2D rb2D;				
+	
+	/// <summary>
+	/// Increases movement efficiency
+	/// </summary>
+	private float inverseMoveTime;
 		
-	private BoxCollider2D boxCollider; 		//All MovingObjects get a BoxCollider2D.
-	private Rigidbody2D rb2D;				//All MovingObjects get a Rigidbody2D.
-	private float inverseMoveTime;			//Used to make movement more efficient.
-		
-	// Initialization function for MovingObject	
+	/// <summary>
+	/// Initialization function for a MovingObject. Takes care of data initialization.
+	/// </summary>
 	protected virtual void Start ()
 	{
 		//Get reference to this object's BoxCollider2D
@@ -25,8 +48,21 @@ public abstract class MovingObject : MonoBehaviour
 		inverseMoveTime = 1f / moveTime;
 	}
 		
-	//Move returns true if it is able to move and false if not. 
-	//Move takes parameters for x direction, y direction and a RaycastHit2D to check collision.
+	/// <summary>
+	/// Movement function to control any moving objects movements. 
+	/// </summary>
+	/// <param name="xDir">
+	/// X direction the object is trying to move.
+	/// </param>
+	/// <param name="yDir">
+	/// Y direction the object is trying to move.
+	/// </param>
+	/// <param name="hit">
+	/// An output if a collision is detected. 
+	/// </param>
+	/// <returns>
+	/// Returns a boolean to control movement. True if move is possible, false otherwise.
+	/// </returns>
 	protected bool Move (int xDir, int yDir, out RaycastHit2D hit)
 	{
 		//Use objects current position as starting position.
@@ -58,9 +94,16 @@ public abstract class MovingObject : MonoBehaviour
 		return false;
 	}
 		
-		
-	//Co-routine for moving units from one space to next.
-	//Takes a parameter end to specify where to move to.
+	/// <summary>
+	/// Coroutine to help move units from one space to the next.
+	/// </summary>
+	/// <param name="end">
+	/// The end point for the unit's movement. Generally one away tile in some direction.
+	/// </param>
+	/// <returns>
+	/// An IEnumerator to help with movement delay.
+	/// </returns>
+
 	protected IEnumerator SmoothMovement (Vector3 end)
 	{
 		//Calculate the remaining distance to move. 
@@ -83,7 +126,17 @@ public abstract class MovingObject : MonoBehaviour
 		}
 	}
 		
-	//Takes a generic parameter T to specify the type of component we expect our unit to interact with.
+	/// <summary>
+	/// Attempts to move the unit in the specified directon. Checks for any collisions in the 
+	/// given direction. If a collision is detected it gets the type of object being collided with
+	/// and takes appropriate action.
+	/// </summary>
+	/// <param name="xDir">
+	/// X direction the object is trying to move.
+	/// </param>
+	/// <param name="yDir">
+	/// Y direction the object is trying to move.
+	/// </param>
 	protected virtual void AttemptMove <T> (int xDir, int yDir)
 		where T : Component
 	{
@@ -102,7 +155,9 @@ public abstract class MovingObject : MonoBehaviour
 			OnCantMove (hitComponent);
 	}
 		
-	//OnCantMove will be overriden by functions in the inheriting classes.
+	/// <summary>
+	/// If the unit can't move calls the appropriate action method from the proper unit. 
+	/// </summary>
 	protected abstract void OnCantMove <T> (T component)
 		where T : Component;
 }
